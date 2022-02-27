@@ -1,4 +1,5 @@
-import { Text, FlatList, View, StyleSheet } from "react-native"
+import { FlatList, View, StyleSheet } from "react-native"
+import Text from "./Text"
 
 const RepositoryItem = ({ item }) => {
   return (
