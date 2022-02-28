@@ -5,6 +5,8 @@ const theme = {
     textReverse: "white",
     primary: "#0366d6",
     bgPrimary: "#24292e",
+    bgGray: "#e1e4e8",
+    bgWhite: "white",
   },
   fontSizes: {
     body: 14,
