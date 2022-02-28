@@ -3,16 +3,18 @@ import { useField } from "formik"
 
 import TextInput from "./TextInput"
 import Text from "./Text"
+import theme from "../theme"
 
 const styles = StyleSheet.create({
   errorText: {
     marginTop: 5,
+    color: theme.colors.textError,
   },
 })
 
 const FormikTextInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name)
-  const showError = meta.touched && meta.error
+  const showError = meta.touched && meta.error // Check if the field is touched and the error message is present
 
   return (
     <>
