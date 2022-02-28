@@ -1,7 +1,9 @@
 import Constants from "expo-constants"
 import { StyleSheet, View } from "react-native"
 import Text from "./Text"
+import { Route, Routes, Navigate } from "react-router-native"
 
+import SignIn from "./SignIn"
 import AppBar from "./AppBar"
 import RepositoryList from "./RepositoryList"
 import theme from "../theme"
@@ -18,11 +20,12 @@ const styles = StyleSheet.create({
 const Main = () => {
   return (
     <View style={styles.container}>
-      <AppBar></AppBar>
-      {/* <Text fontWeight="bold" color="primary">
-        Rate Repository Application
-      </Text> */}
-      <RepositoryList />
+      <AppBar />
+      <Routes>
+        <Route path="/" element={<RepositoryList />} exact />
+        <Route path="/signin" element={<SignIn />} exact />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </View>
   )
 }

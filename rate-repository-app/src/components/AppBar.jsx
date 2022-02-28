@@ -3,27 +3,21 @@ import Constants from "expo-constants"
 import theme from "../theme"
 
 import Text from "./Text"
+import AppBarTab from "./AppBarTab"
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.bgPrimary,
-  },
-  text: {
-    paddingTop: 18,
-    paddingBottom: 18,
-    paddingStart: 12,
   },
 })
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <Pressable onPress>
-        <Text color="textReverse" style={styles.text}>
-          Repositories
-        </Text>
-      </Pressable>
+      <AppBarTab label="Repositories" link="/" />
+      <AppBarTab label="Sign in" link="/signin" />
     </View>
   )
 }
