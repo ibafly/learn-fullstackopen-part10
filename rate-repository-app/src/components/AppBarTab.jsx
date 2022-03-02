@@ -18,14 +18,20 @@ const styles = StyleSheet.create({
   },
 })
 
-const AppBarTab = ({ label, link }) => {
-  return (
-    <Pressable onPress>
+const AppBarTab = ({ label, link, onPress }) => {
+  return link ? (
+    <Pressable onPress={onPress}>
       <Link to={link}>
         <Text color="textReverse" style={styles.text}>
           {label}
         </Text>
       </Link>
+    </Pressable>
+  ) : (
+    <Pressable onPress={onPress}>
+      <Text color="textReverse" style={styles.text}>
+        {label}
+      </Text>
     </Pressable>
   )
 }
