@@ -1,11 +1,11 @@
-import Text from "./Text"
-import FormikTextInput from "./FormikTextInput"
 import { StyleSheet, View, Pressable } from "react-native"
 import { Navigate, useNavigate } from "react-router-native"
+import useSignIn from "../hooks/useSignIn"
 import { Formik } from "formik"
 import * as yup from "yup"
+import Text from "./Text"
+import FormikTextInput from "./FormikTextInput"
 import theme from "../theme"
-import useSignIn from "../hooks/useSignIn"
 
 const styles = StyleSheet.create({
   signInForm: {
@@ -49,6 +49,19 @@ const SignInForm = ({ onSubmit }) => {
     </View>
   )
 }
+
+export const SignInContainer = ({ onSubmit }) => {
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+    </Formik>
+  )
+}
+
 const SignIn = () => {
   const [signIn, result] = useSignIn()
   const navigate = useNavigate()
@@ -63,15 +76,8 @@ const SignIn = () => {
       console.log(error)
     }
   }
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-    </Formik>
-  )
+
+  return <SignInContainer onSubmit={onSubmit} />
 }
 
 export default SignIn

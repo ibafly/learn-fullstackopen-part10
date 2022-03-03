@@ -54,7 +54,7 @@ describe("RepositoryList", () => {
         <RepositoryListContainer repositories={repositories} />
       )
 
-      debug()
+      //   debug()
 
       //   expect(getByText("jaredpalmer/formik").toBeDefined)
 
