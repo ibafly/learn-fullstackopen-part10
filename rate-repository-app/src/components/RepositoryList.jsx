@@ -17,25 +17,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-const RepositoryList = () => {
-  const { repositories, loading, refetch } = useRepositories()
-
-  //   const [repositories, setRepositories] = useState()
-
-  //   const fetchRepositories = async () => {
-  //     const response = await fetch(`http://${APOLLO_URI}:5000/api/repositories`)
-  //     const json = await response.json()
-
-  //     console.log(json)
-
-  //     setRepositories(json)
-  //   }
-
-  //   useEffect(() => {
-  //     fetchRepositories()
-  //   }, [])
-
-  // Get the nodes from the edges array
+export const RepositoryListContainer = ({ repositories }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : []
@@ -50,6 +32,12 @@ const RepositoryList = () => {
       )}
     />
   )
+}
+
+const RepositoryList = () => {
+  const { repositories, loading, refetch } = useRepositories()
+
+  return <RepositoryListContainer repositories={repositories} />
 }
 
 export default RepositoryList
