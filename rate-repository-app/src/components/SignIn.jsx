@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     backgroundColor: theme.colors.bgWhite,
   },
-  formSubmitBtn: {
+  conformBtn: {
     alignItems: "center",
     marginTop: 12,
     paddingVertical: 12,
@@ -43,7 +43,7 @@ const SignInForm = ({ onSubmit }) => {
     <View style={styles.signInForm}>
       <FormikTextInput name="username" placeholder="Username" />
       <FormikTextInput name="password" placeholder="Password" secureTextEntry />
-      <Pressable onPress={onSubmit} style={styles.formSubmitBtn}>
+      <Pressable onPress={onSubmit} style={styles.conformBtn}>
         <Text color="textReverse">Sign in</Text>
       </Pressable>
     </View>
