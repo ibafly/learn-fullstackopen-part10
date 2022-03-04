@@ -61,13 +61,13 @@ const formatCount = number => {
   }
 }
 
-const RepositoryItemContainer = ({ item, isInSingleView }) => {
+export const RepositoryItemContainer = ({ item, isInSingleView }) => {
   return (
     <View style={styles.container} testID="repositoryItem">
       <View style={styles.header}>
         <Image source={{ uri: item.ownerAvatarUrl, width: 35, height: 35 }} />
         <View style={styles.info}>
-          <Text>{item.fullName}</Text>
+          <Text fontWeight="bold">{item.fullName}</Text>
           <Text color="textSecondary">{item.description}</Text>
           <Text color="textReverse" style={styles.tag}>
             {item.language}

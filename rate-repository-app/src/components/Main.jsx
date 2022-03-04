@@ -8,6 +8,7 @@ import AppBar from "./AppBar"
 import RepositoryList from "./RepositoryList"
 import theme from "../theme"
 import RepositoryItem from "./RepositoryItem"
+import SingleRepository from "./SingleRepository"
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +26,8 @@ const Main = () => {
       <Routes>
         <Route
           path="/repositories/:id"
-          element={<RepositoryItem isInSingleView={true} />}
+          // element={<RepositoryItem isInSingleView={true} />}
+          element={<SingleRepository />}
           exact
         />
         <Route path="/signin" element={<SignIn />} exact />
