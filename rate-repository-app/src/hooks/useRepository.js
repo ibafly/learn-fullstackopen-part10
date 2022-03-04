@@ -7,6 +7,7 @@ const useRepository = () => {
   let { id } = useParams()
   const { loading, error, data } = useQuery(GET_ONE_REPOSITORY, {
     variables: { id },
+    fetchPolicy: "cache-and-network",
   })
 
   return {

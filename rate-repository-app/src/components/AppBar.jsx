@@ -38,11 +38,14 @@ const AppBar = () => {
         {!loggedUser ? (
           <AppBarTab label="Sign in" link="/signin" />
         ) : (
-          <AppBarTab
-            label={`Sign out ${loggedUser.username}`}
-            // link="/signin" // wrong, no call to onPress callback after link routing, use useNavigate hook instead.
-            onPress={handleLogOut}
-          />
+          <>
+            <AppBarTab label="Create a review" link="/create" />
+            <AppBarTab
+              label={`Sign out ${loggedUser.username}`}
+              // link="/signin" // wrong, no call to onPress callback after link routing, use useNavigate hook instead.
+              onPress={handleLogOut}
+            />
+          </>
         )}
       </ScrollView>
     </View>

@@ -9,6 +9,7 @@ import RepositoryList from "./RepositoryList"
 import theme from "../theme"
 import RepositoryItem from "./RepositoryItem"
 import SingleRepository from "./SingleRepository"
+import CreateReview from "./CreateReview"
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +31,7 @@ const Main = () => {
           element={<SingleRepository />}
           exact
         />
+        <Route path="/create" element={<CreateReview />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/" element={<RepositoryList />} exact />
         <Route path="*" element={<Navigate to="/" replace />} />
