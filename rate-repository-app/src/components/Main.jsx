@@ -4,6 +4,7 @@ import Text from "./Text"
 import { Route, Routes, Navigate } from "react-router-native"
 
 import SignIn from "./SignIn"
+import SignUp from "./SignUp"
 import AppBar from "./AppBar"
 import RepositoryList from "./RepositoryList"
 import theme from "../theme"
@@ -33,6 +34,7 @@ const Main = () => {
         />
         <Route path="/create" element={<CreateReview />} exact />
         <Route path="/signin" element={<SignIn />} exact />
+        <Route path="/signup" element={<SignUp />} exact />
         <Route path="/" element={<RepositoryList />} exact />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
