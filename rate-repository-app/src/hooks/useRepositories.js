@@ -7,11 +7,13 @@ import Constants from "expo-constants"
 
 // const { APOLLO_URI } = Constants.manifest.extra
 
-const useRepositories = () => {
+const useRepositories = selectedOrder => {
   const [repositories, setRepositories] = useState()
+  const [orderDirection, orderBy] = selectedOrder.split("-")
   //   const [loading, setLoading] = useState(false)
   const { data, error, loading, refetch } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: "cache-and-network",
+    variables: { orderBy, orderDirection },
   })
 
   //   const fetchRepositories = async () => {

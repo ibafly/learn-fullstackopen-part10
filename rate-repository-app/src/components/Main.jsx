@@ -1,8 +1,10 @@
-import Constants from "expo-constants"
 import { StyleSheet, View } from "react-native"
-import Text from "./Text"
 import { Route, Routes, Navigate } from "react-router-native"
+import { useState } from "react"
 
+import useRepositories from "../hooks/useRepositories"
+import Constants from "expo-constants"
+import Text from "./Text"
 import SignIn from "./SignIn"
 import SignUp from "./SignUp"
 import AppBar from "./AppBar"
@@ -22,6 +24,10 @@ const styles = StyleSheet.create({
 })
 
 const Main = () => {
+  const [selectedOrder, setSelectedOrder] = useState("DESC-CREATED_AT")
+  const { repositories, loading, refetch } = useRepositories(selectedOrder)
+  console.log("selected order: ", selectedOrder)
+
   return (
     <View style={styles.container}>
       <AppBar />
@@ -35,7 +41,17 @@ const Main = () => {
         <Route path="/create" element={<CreateReview />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/signup" element={<SignUp />} exact />
-        <Route path="/" element={<RepositoryList />} exact />
+        <Route
+          path="/"
+          element={
+            <RepositoryList
+              repositories={repositories}
+              selectedOrder={selectedOrder}
+              setSelectedOrder={setSelectedOrder}
+            />
+          }
+          exact
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </View>
