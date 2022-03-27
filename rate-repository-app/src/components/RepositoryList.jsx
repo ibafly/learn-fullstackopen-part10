@@ -1,5 +1,6 @@
 import { FlatList, View, StyleSheet, Pressable } from "react-native"
 import { Picker } from "@react-native-picker/picker"
+import { Searchbar } from "react-native-paper"
 // import { useState, useEffect } from "react"
 
 import RepositoryItem from "./RepositoryItem"
@@ -31,6 +32,8 @@ export const RepositoryListContainer = ({
   navigateOnPress: navigate,
   selectedOrder,
   setSelectedOrder,
+  searchKeyword,
+  setSearchKeyword,
 }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
@@ -50,28 +53,43 @@ export const RepositoryListContainer = ({
         </Pressable>
       )}
       ListHeaderComponent={() => (
-        <Picker
-          style={styles.picker}
-          selectedValue={selectedOrder}
-          onValueChange={(itemValue, itemIndex) => setSelectedOrder(itemValue)}
-          prompt="Select an item..."
-        >
-          <Picker.Item label="Latest repositories" value="DESC-CREATED_AT" />
-          <Picker.Item
-            label="Highest rated repositories"
-            value="DESC-RATING_AVERAGE"
+        <>
+          <Searchbar
+            placeholder="Search"
+            onChangeText={query => setSearchKeyword(query)}
+            value={searchKeyword}
           />
-          <Picker.Item
-            label="Lowest rated repositories"
-            value="ASC-RATING_AVERAGE"
-          />
-        </Picker>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedOrder}
+            onValueChange={(itemValue, itemIndex) =>
+              setSelectedOrder(itemValue)
+            }
+            prompt="Select an item..."
+          >
+            <Picker.Item label="Latest repositories" value="DESC-CREATED_AT" />
+            <Picker.Item
+              label="Highest rated repositories"
+              value="DESC-RATING_AVERAGE"
+            />
+            <Picker.Item
+              label="Lowest rated repositories"
+              value="ASC-RATING_AVERAGE"
+            />
+          </Picker>
+        </>
       )}
     />
   )
 }
 
-const RepositoryList = ({ repositories, selectedOrder, setSelectedOrder }) => {
+const RepositoryList = ({
+  repositories,
+  selectedOrder,
+  setSelectedOrder,
+  searchKeyword,
+  setSearchKeyword,
+}) => {
   const navigate = useNavigate()
 
   return (
@@ -80,6 +98,8 @@ const RepositoryList = ({ repositories, selectedOrder, setSelectedOrder }) => {
       navigateOnPress={navigate}
       selectedOrder={selectedOrder}
       setSelectedOrder={setSelectedOrder}
+      searchKeyword={searchKeyword}
+      setSearchKeyword={setSearchKeyword}
     />
   )
 }

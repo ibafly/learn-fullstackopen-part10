@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native"
 import { Route, Routes, Navigate } from "react-router-native"
 import { useState } from "react"
+import { useDebounce } from "use-debounce"
 
 import useRepositories from "../hooks/useRepositories"
 import Constants from "expo-constants"
@@ -24,8 +25,14 @@ const styles = StyleSheet.create({
 })
 
 const Main = () => {
+  const [searchKeyword, setSearchKeyword] = useState("")
+  const [debouncedKeyword] = useDebounce(searchKeyword, 500)
+
   const [selectedOrder, setSelectedOrder] = useState("DESC-CREATED_AT")
-  const { repositories, loading, refetch } = useRepositories(selectedOrder)
+  const { repositories, loading, refetch } = useRepositories(
+    selectedOrder,
+    debouncedKeyword
+  )
   console.log("selected order: ", selectedOrder)
 
   return (
@@ -48,6 +55,8 @@ const Main = () => {
               repositories={repositories}
               selectedOrder={selectedOrder}
               setSelectedOrder={setSelectedOrder}
+              searchKeyword={searchKeyword}
+              setSearchKeyword={setSearchKeyword}
             />
           }
           exact
