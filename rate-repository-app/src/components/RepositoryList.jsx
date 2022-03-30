@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet, Pressable } from "react-native"
+import { FlatList, View, StyleSheet, Pressable, Dimensions } from "react-native"
 import { Picker } from "@react-native-picker/picker"
 import { Searchbar } from "react-native-paper"
 // import { useState, useEffect } from "react"
@@ -8,6 +8,7 @@ import RepositoryItem from "./RepositoryItem"
 import useRepositories from "../hooks/useRepositories"
 import { useNavigate } from "react-router-native"
 import React, { useState } from "react"
+import { useDebounce } from "use-debounce"
 import theme from "../theme"
 
 // import Constants from "expo-constants"
@@ -116,38 +117,69 @@ export class RepositoryListContainer extends React.Component {
   }
 
   render() {
-    const { repositories, navigateOnPress: navigate } = this.props
+    const { repositories, navigateOnPress: navigate, onEndReach } = this.props
 
     const repositoryNodes = repositories
       ? repositories.edges.map(edge => edge.node)
       : []
+
     return (
-      <FlatList
-        data={repositoryNodes}
-        ItemSeparatorComponent={ItemSeparator}
-        renderItem={({ item, index, separators }) => (
-          <Pressable
-            onPress={() => {
-              navigate(`/repositories/${item.id}`, { replace: true })
-            }}
-          >
-            <RepositoryItem key={item.key} item={item} />
-          </Pressable>
-        )}
-        ListHeaderComponent={this.renderHeader}
-      />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          // height: Dimensions.get("window"),
+        }}
+      >
+        <FlatList
+          data={repositoryNodes}
+          ItemSeparatorComponent={ItemSeparator}
+          renderItem={({ item, index, separators }) => (
+            <Pressable
+              onPress={() => {
+                navigate(`/repositories/${item.id}`, { replace: true })
+              }}
+            >
+              <RepositoryItem key={item.key} item={item} />
+            </Pressable>
+          )}
+          ListHeaderComponent={this.renderHeader}
+          onEndReached={onEndReach} // scroll loading work on android but not web
+          onEndReachedThreshold={0.5}
+        />
+      </View>
     )
   }
 }
 
-const RepositoryList = ({
-  repositories,
-  selectedOrder,
-  setSelectedOrder,
-  searchKeyword,
-  setSearchKeyword,
-}) => {
+const RepositoryList = (
+  {
+    // repositories,
+    // selectedOrder,
+    // setSelectedOrder,
+    // searchKeyword,
+    // setSearchKeyword,
+    // onEndReach,
+  }
+) => {
   const navigate = useNavigate()
+
+  const [searchKeyword, setSearchKeyword] = useState("")
+  const [debouncedKeyword] = useDebounce(searchKeyword, 500)
+
+  const [selectedOrder, setSelectedOrder] = useState("DESC-CREATED_AT")
+
+  const { repositories, loading, refetch, fetchMore } = useRepositories({
+    selectedOrder,
+    searchKeyword: debouncedKeyword,
+    first: 8,
+  })
+  console.log("selected order: ", selectedOrder)
+
+  const onEndReach = () => {
+    console.log("reached END")
+    fetchMore()
+  }
 
   return (
     <RepositoryListContainer
@@ -157,6 +189,7 @@ const RepositoryList = ({
       setSelectedOrder={setSelectedOrder}
       searchKeyword={searchKeyword}
       setSearchKeyword={setSearchKeyword}
+      onEndReach={onEndReach}
     />
   )
 }

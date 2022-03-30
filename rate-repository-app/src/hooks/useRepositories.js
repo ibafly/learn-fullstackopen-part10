@@ -7,14 +7,19 @@ import Constants from "expo-constants"
 
 // const { APOLLO_URI } = Constants.manifest.extra
 
-const useRepositories = (selectedOrder, searchKeyword) => {
+// const useRepositories = (selectedOrder, searchKeyword) => {
+const useRepositories = ({ selectedOrder, ...otherVars }) => {
   const [repositories, setRepositories] = useState()
   const [orderDirection, orderBy] = selectedOrder.split("-")
   //   const [loading, setLoading] = useState(false)
-  const { data, error, loading, refetch } = useQuery(GET_REPOSITORIES, {
-    fetchPolicy: "cache-and-network",
-    variables: { orderBy, orderDirection, searchKeyword },
-  })
+  const { data, error, loading, refetch, fetchMore } = useQuery(
+    GET_REPOSITORIES,
+    {
+      fetchPolicy: "cache-and-network",
+      // variables: { orderBy, orderDirection, searchKeyword },
+      variables: { orderBy, orderDirection, ...otherVars },
+    }
+  )
 
   //   const fetchRepositories = async () => {
   // setLoading(true)
@@ -42,8 +47,27 @@ const useRepositories = (selectedOrder, searchKeyword) => {
     }
   }, [data])
 
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage
+
+    if (!canFetchMore) {
+      return
+    }
+    console.log("now can Fetch more")
+
+    fetchMore({
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        orderBy,
+        orderDirection,
+        ...otherVars,
+        // searchKeyword,
+      },
+    })
+  }
+
   //   return { repositories, loading, refetch: fetchRepositories }
-  return { repositories, loading, refetch }
+  return { repositories, loading, refetch, fetchMore: handleFetchMore }
 }
 
 export default useRepositories

@@ -1,4 +1,4 @@
-import { View, FlatList, StyleSheet } from "react-native"
+import { View, FlatList, StyleSheet, Dimensions } from "react-native"
 import Text from "./Text"
 import { format } from "date-fns"
 
@@ -65,29 +65,44 @@ const ReviewItem = ({ review }) => {
 }
 
 const SingleRepository = () => {
-  const { repository, loading } = useRepository()
-  console.log("repo ", repository, loading)
+  const { repository, loading, fetchMore } = useRepository({ first: 2 })
+  // console.log("repo ", repository, loading)
 
-  if (loading) {
-    return <Text>loading...</Text>
-  }
-  console.log(repository.reviews)
+  // if (loading) { // if is not commented, the page will be anchored to 'loading' text, no more in the place that trigger onEndReach.
+  //   return <Text>loading...</Text>
+  // }
+
   const reviewNodes = repository
-    ? repository.reviews.edges.map(edge => edge.node)
+    ? repository.reviews?.edges.map(edge => edge.node)
     : []
 
+  const onEndReach = () => {
+    console.log("reached END")
+    fetchMore()
+  }
+
   return (
-    <FlatList
-      //   data={repository.reviews.edges.node}
-      data={reviewNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <ReviewItem review={item} />}
-      keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => (
-        <RepositoryItemContainer item={repository} isInSingleView={true} />
-      )}
-      ListHeaderComponentStyle={styles.marginBottom10}
-    />
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "row",
+        // height: Dimensions.get("window"),
+      }}
+    >
+      <FlatList
+        //   data={repository.reviews.edges.node}
+        data={reviewNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({ item }) => <ReviewItem review={item} />}
+        keyExtractor={({ id }) => id}
+        ListHeaderComponent={() => (
+          <RepositoryItemContainer item={repository} isInSingleView={true} />
+        )}
+        ListHeaderComponentStyle={styles.marginBottom10}
+        onEndReached={onEndReach} // work on android but not smoothly on web. press F12 then scroll-loaded reviews are shown.
+        onEndReachedThreshold={0.1}
+      />
+    </View>
   )
 }
 
