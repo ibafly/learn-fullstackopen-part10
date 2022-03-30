@@ -10,6 +10,7 @@ const theme = {
     bgPrimary: "#24292e",
     bgGray: "#e1e4e8",
     bgWhite: "white",
+    bgWarning: "#d73a4a",
   },
   fontSizes: {
     body: 14,

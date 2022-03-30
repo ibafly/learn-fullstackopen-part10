@@ -12,12 +12,12 @@ const useRepositories = ({ selectedOrder, ...otherVars }) => {
   const [repositories, setRepositories] = useState()
   const [orderDirection, orderBy] = selectedOrder.split("-")
   //   const [loading, setLoading] = useState(false)
+  console.log("orderDirection: ", orderDirection, " orderBy: ", orderBy)
   const { data, error, loading, refetch, fetchMore } = useQuery(
     GET_REPOSITORIES,
     {
-      fetchPolicy: "cache-and-network",
-      // variables: { orderBy, orderDirection, searchKeyword },
       variables: { orderBy, orderDirection, ...otherVars },
+      fetchPolicy: "cache-and-network",
     }
   )
 
