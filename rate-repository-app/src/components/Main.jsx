@@ -1,4 +1,8 @@
-import { StyleSheet, View } from "react-native"
+import {
+  RecyclerViewBackedScrollViewBase,
+  StyleSheet,
+  View,
+} from "react-native"
 import { Route, Routes, Navigate } from "react-router-native"
 import { useState } from "react"
 
@@ -13,6 +17,7 @@ import theme from "../theme"
 import RepositoryItem from "./RepositoryItem"
 import SingleRepository from "./SingleRepository"
 import CreateReview from "./CreateReview"
+import Reviews from "./Reviews"
 
 const styles = StyleSheet.create({
   container: {
@@ -34,6 +39,7 @@ const Main = () => {
           element={<SingleRepository />}
           exact
         />
+        <Route path="/reviews" element={<Reviews />} exact />
         <Route path="/create" element={<CreateReview />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/signup" element={<SignUp />} exact />

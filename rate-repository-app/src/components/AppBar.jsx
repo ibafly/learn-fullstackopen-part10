@@ -43,6 +43,7 @@ const AppBar = () => {
         ) : (
           <>
             <AppBarTab label="Create a review" link="/create" />
+            <AppBarTab label="My reviews" link="/reviews" />
             <AppBarTab
               label={`Sign out ${loggedUser.username}`}
               // link="/signin" // wrong, no call to onPress callback after link routing, use useNavigate hook instead.
